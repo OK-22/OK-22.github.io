@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Oluwakayode Rawa — Data Scientist & Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --ink: #0e0e0e;
+    --paper: #f5f2ec;
+    --accent: #c84b2f;
+    --accent2: #2a5c8a;
+    --muted: #6b6560;
+    --border: #d8d3cb;
+    --card: #ffffff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem;
+    background: rgba(245,242,236,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none;
+    color: var(--muted); transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 4rem 3rem 4rem 4rem;
+  }
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; color: var(--accent);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name em { color: var(--accent); font-style: italic; }
+  .hero-bio {
+    font-size: 1rem; line-height: 1.75;
+    color: var(--muted); max-width: 480px;
+    margin-bottom: 2.5rem;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .hero-cta {
+    display: flex; gap: 1rem; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    padding: 0.75rem 1.8rem;
+    background: var(--accent); color: white;
+    font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 500;
+    border: none; border-radius: 2px; cursor: pointer;
+    text-decoration: none; transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: #a83820; transform: translateY(-1px); }
+  .btn-outline {
+    padding: 0.75rem 1.8rem;
+    background: transparent; color: var(--ink);
+    font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 500;
+    border: 1.5px solid var(--ink); border-radius: 2px; cursor: pointer;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 4rem 4rem 4rem 2rem;
+    position: relative;
+  }
+  .hero-stats-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1rem; width: 100%; max-width: 380px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .stat-card.accent-card { background: var(--accent); border-color: var(--accent); }
+  .stat-card.accent-card .stat-num,
+  .stat-card.accent-card .stat-label { color: white; }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.4rem; color: var(--ink); line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-label {
+    font-size: 0.75rem; color: var(--muted);
+    font-weight: 500; letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  .hero-scroll::after {
+    content: ''; width: 1px; height: 40px;
+    background: var(--muted); display: block;
+  }
+
+  /* ── SECTIONS ── */
+  section { padding: 6rem 4rem; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    line-height: 1.1; margin-bottom: 3rem;
+  }
+
+  /* ── SKILLS ── */
+  #skills { background: var(--ink); }
+  #skills .section-label { color: var(--accent); }
+  #skills .section-title { color: var(--paper); }
+  .skills-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+  .skill-group {
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 1.75rem; border-radius: 4px;
+    transition: border-color 0.2s;
+  }
+  .skill-group:hover { border-color: var(--accent); }
+  .skill-group-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.15em; text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-size: 0.78rem; color: rgba(245,242,236,0.75);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 0.3rem 0.75rem; border-radius: 2px;
+  }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--paper); }
+  .exp-item {
+    display: grid; grid-template-columns: 200px 1fr;
+    gap: 3rem; padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .exp-item:first-of-type { border-top: 1px solid var(--border); }
+  .exp-meta { padding-top: 0.2rem; }
+  .exp-company {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 0.4rem;
+  }
+  .exp-dates { font-size: 0.8rem; color: var(--muted); }
+  .exp-role {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.4rem; margin-bottom: 1rem;
+  }
+  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .exp-bullets li {
+    font-size: 0.9rem; line-height: 1.65; color: var(--muted);
+    padding-left: 1.2rem; position: relative;
+  }
+  .exp-bullets li::before {
+    content: '—'; position: absolute; left: 0;
+    color: var(--accent); font-size: 0.8rem;
+  }
+
+  /* ── PROJECTS ── */
+  #projects { background: #f0ece3; }
+  .projects-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 2rem; border-radius: 4px;
+    display: flex; flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none; color: inherit;
+  }
+  .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; color: var(--accent);
+    letter-spacing: 0.15em; margin-bottom: 1rem;
+  }
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; margin-bottom: 0.75rem; line-height: 1.3;
+  }
+  .project-desc {
+    font-size: 0.85rem; line-height: 1.7;
+    color: var(--muted); flex: 1; margin-bottom: 1.5rem;
+  }
+  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .stack-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem; padding: 0.2rem 0.6rem;
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 2px; color: var(--muted);
+  }
+  .project-arrow {
+    margin-top: 1.25rem; font-size: 0.8rem; color: var(--accent);
+    font-weight: 500; display: flex; align-items: center; gap: 0.3rem;
+  }
+
+  /* ── EDUCATION ── */
+  #education { background: var(--paper); }
+  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .edu-card {
+    background: var(--card); border: 1px solid var(--border);
+    padding: 2rem; border-radius: 4px;
+    transition: transform 0.2s;
+  }
+  .edu-card:hover { transform: translateY(-2px); }
+  .edu-degree {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem; margin-bottom: 0.4rem;
+  }
+  .edu-school { font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; }
+  .edu-dates {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: var(--accent);
+    letter-spacing: 0.1em; margin-bottom: 1rem;
+  }
+  .edu-courses { font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
+  .edu-grade {
+    display: inline-block; margin-top: 1rem;
+    font-family: 'DM Mono', monospace; font-size: 0.75rem;
+    color: var(--accent); border: 1px solid var(--accent);
+    padding: 0.2rem 0.6rem; border-radius: 2px;
+  }
+
+  /* ── CERTS ── */
+  #certs { background: var(--ink); }
+  #certs .section-title { color: var(--paper); }
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  .cert-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  }
+  .cert-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255,255,255,0.3);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+  }
+  .cert-img-wrap {
+    width: 100%; aspect-ratio: 16/10; overflow: hidden;
+    background: #fff; cursor: pointer;
+  }
+  .cert-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 0.3s;
+  }
+  .cert-card:hover .cert-img-wrap img { transform: scale(1.04); }
+  .cert-info {
+    padding: 1.1rem 1.3rem;
+    display: flex; flex-direction: column; gap: 0.4rem; flex: 1;
+  }
+  .cert-card-name {
+    font-size: 0.88rem; color: var(--paper); font-weight: 500; line-height: 1.4;
+  }
+  .cert-card-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 0.6rem;
+  }
+  .cert-issuer {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem; color: var(--accent);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .cert-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem; color: rgba(255,255,255,0.3);
+  }
+  .cert-verify {
+    display: inline-block; margin-top: 0.8rem;
+    font-family: 'DM Mono', monospace; font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--paper); text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.25);
+    padding: 0.3rem 0.75rem; border-radius: 2px;
+    transition: background 0.2s, color 0.2s; align-self: flex-start;
+  }
+  .cert-verify:hover { background: var(--paper); color: var(--ink); }
+  /* Lightbox */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.93);
+    justify-content: center; align-items: center; padding: 2rem;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 90vw; max-height: 88vh;
+    border-radius: 4px; box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  .lightbox-close {
+    position: fixed; top: 1.2rem; right: 1.8rem;
+    font-size: 2.2rem; color: white; cursor: pointer;
+    background: none; border: none; line-height: 1; opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+  .lightbox-close:hover { opacity: 1; }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--accent);
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem; align-items: center;
+    padding: 6rem 4rem;
+  }
+  #contact .section-label { color: rgba(255,255,255,0.6); }
+  #contact .section-title { color: white; margin-bottom: 1.5rem; }
+  .contact-bio { font-size: 1rem; line-height: 1.75; color: rgba(255,255,255,0.8); }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-link {
+    display: flex; align-items: center; gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 4px; text-decoration: none;
+    color: white; font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .contact-link:hover { background: rgba(255,255,255,0.2); }
+  .contact-link-icon {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: rgba(255,255,255,0.6);
+    min-width: 60px;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); padding: 2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem; color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1rem; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 2rem 1.5rem; }
+    .hero-right { padding: 2rem 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .edu-grid { grid-template-columns: 1fr; }
+    #contact { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">OK — 22</a>
+  <ul class="nav-links">
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">// Available for opportunities</p>
+    <h1 class="hero-name">Oluwakayode<br><em>Rawa</em></h1>
+    <p class="hero-bio">Applied Data Scientist & SAP/ABAP Developer with a passion for AI, cybersecurity, and building systems that solve real problems. MSc in Information Systems — Central Michigan University.</p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="https://www.linkedin.com/in/oluwakayode-rawa" target="_blank" class="btn-outline">LinkedIn</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats-grid">
+      <div class="stat-card accent-card">
+        <div class="stat-num">6+</div>
+        <div class="stat-label">Projects on GitHub</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">95%</div>
+        <div class="stat-label">MSc Grade</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">4+</div>
+        <div class="stat-label">Years Dev Experience</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Certifications</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">// 01 — Expertise</p>
+  <h2 class="section-title" style="color:var(--paper)">Technical Skills</h2>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <p class="skill-group-title">Languages</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">ABAP</span>
+        <span class="skill-tag">Java</span>
+        <span class="skill-tag">C/C++</span>
+        <span class="skill-tag">VB.NET</span>
+        <span class="skill-tag">MySQL</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Data Science & ML</p>
+      <div class="skill-tags">
+        <span class="skill-tag">scikit-learn</span>
+        <span class="skill-tag">Pandas</span>
+        <span class="skill-tag">NumPy</span>
+        <span class="skill-tag">Matplotlib</span>
+        <span class="skill-tag">Statistical Analysis</span>
+        <span class="skill-tag">Machine Learning</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">SAP / Enterprise</p>
+      <div class="skill-tags">
+        <span class="skill-tag">SAP ECC</span>
+        <span class="skill-tag">ABAP Workbench</span>
+        <span class="skill-tag">Module Pool</span>
+        <span class="skill-tag">Dynpro</span>
+        <span class="skill-tag">ERPsim</span>
+        <span class="skill-tag">Celonis</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Cybersecurity</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Nmap</span>
+        <span class="skill-tag">Metasploit</span>
+        <span class="skill-tag">Wireshark</span>
+        <span class="skill-tag">BurpSuite</span>
+        <span class="skill-tag">SPLUNK</span>
+        <span class="skill-tag">Kali Linux</span>
+        <span class="skill-tag">NIST Framework</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Databases & DevOps</p>
+      <div class="skill-tags">
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">NoSQL</span>
+        <span class="skill-tag">dbt</span>
+        <span class="skill-tag">Git</span>
+        <span class="skill-tag">Linux</span>
+        <span class="skill-tag">SQL/PSM</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <p class="skill-group-title">Web Development</p>
+      <div class="skill-tags">
+        <span class="skill-tag">Python Backend</span>
+        <span class="skill-tag">Flask</span>
+        <span class="skill-tag">HTML/CSS</span>
+        <span class="skill-tag">REST APIs</span>
+        <span class="skill-tag">SQL Optimization</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">// 02 — Career</p>
+  <h2 class="section-title">Work Experience</h2>
+
+  <div class="exp-item">
+    <div class="exp-meta">
+      <p class="exp-company">Metrosoft Limited</p>
+      <p class="exp-dates">Jan 2022 – Jul 2024</p>
+    </div>
+    <div>
+      <h3 class="exp-role">Web Developer</h3>
+      <ul class="exp-bullets">
+        <li>Architected and deployed responsive web applications with optimized SQL queries and Python-based backend systems.</li>
+        <li>Collaborated with cross-functional teams (UI/UX, QA, content) to deliver scalable, data-driven solutions.</li>
+        <li>Implemented database optimization strategies resulting in <strong>30% improvement</strong> in application response times.</li>
+        <li>Developed dynamic content generation features using Python integrations and SQL-driven data processing.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-meta">
+      <p class="exp-company">Six Flags</p>
+      <p class="exp-dates">2021 – 2023</p>
+    </div>
+    <div>
+      <h3 class="exp-role">Operations & Food Services Associate</h3>
+      <ul class="exp-bullets">
+        <li>Delivered exceptional customer service while maintaining strict safety protocols and operational standards.</li>
+        <li>Supervised team members and coordinated workflow processes in a fast-paced, high-volume environment.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="exp-item">
+    <div class="exp-meta">
+      <p class="exp-company">Achievement</p>
+      <p class="exp-dates">CMU — 2025</p>
+    </div>
+    <div>
+      <h3 class="exp-role">🥉 Third Place — ERPsim Business Simulation</h3>
+      <ul class="exp-bullets">
+        <li>Led cross-functional team optimizing procurement, sales, and financial processes using SAP ECC in a real-time competitive environment.</li>
+        <li>Demonstrated strategic decision-making with mentorship from Stryker Corporation industry experts.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">// 03 — Work</p>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid">
+
+    <a href="https://ok-22.github.io/OK-22.github.io/" target="_blank" class="project-card" style="border-left: 3px solid var(--accent); padding: 0; overflow: hidden;">
+      <div style="width:100%; aspect-ratio:16/9; overflow:hidden; background:#f0ece3;">
+        <img src="Fixlyst.png" alt="Fixlyst Home Services Platform" style="width:100%; height:100%; object-fit:cover; display:block; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'"/>
+      </div>
+      <div style="padding: 2rem;">
+      <p class="project-num">01 / 06</p>
+      <h3 class="project-title">Fixlyst — Home Services Booking Platform</h3>
+      <p class="project-desc">A full-stack home services marketplace connecting homeowners with verified local professionals for cleaning, plumbing, electrical work, AC repair, painting and more. Features service browsing, pro booking, and a clean responsive UI.</p>
+      <div class="project-stack">
+        <span class="stack-tag">HTML/CSS</span>
+        <span class="stack-tag">JavaScript</span>
+        <span class="stack-tag">UI/UX Design</span>
+        <span class="stack-tag">Responsive</span>
+      </div>
+      <p class="project-arrow">View Live Site →</p>
+      </div>
+    </a>
+
+    <a href="https://github.com/OK-22/sports-analytics-platform" target="_blank" class="project-card">
+      <p class="project-num">02 / 06</p>
+      <h3 class="project-title">AI-Powered Sports Analytics Platform</h3>
+      <p class="project-desc">Machine learning model predicting English Premier League match outcomes using historical team performance data and statistical modeling.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">scikit-learn</span>
+        <span class="stack-tag">Pandas</span>
+        <span class="stack-tag">Statistics</span>
+      </div>
+      <p class="project-arrow">View on GitHub →</p>
+    </a>
+
+    <a href="https://github.com/OK-22/enterprise-auth-system" target="_blank" class="project-card">
+      <p class="project-num">03 / 06</p>
+      <h3 class="project-title">Enterprise Security Authentication System</h3>
+      <p class="project-desc">Secure TOTP multi-factor authentication with QR code integration and encrypted credential management using bcrypt.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Flask</span>
+        <span class="stack-tag">Cryptography</span>
+        <span class="stack-tag">HTML/CSS</span>
+      </div>
+      <p class="project-arrow">View on GitHub →</p>
+    </a>
+
+    <a href="https://github.com/OK-22/network-vulnerability-tool" target="_blank" class="project-card">
+      <p class="project-num">04 / 06</p>
+      <h3 class="project-title">Network Vulnerability Assessment Tool</h3>
+      <p class="project-desc">Automated security scanner detecting open ports, running services, and vulnerabilities with JSON/HTML report generation.</p>
+      <div class="project-stack">
+        <span class="stack-tag">Python</span>
+        <span class="stack-tag">Nmap</span>
+        <span class="stack-tag">SQL</span>
+        <span class="stack-tag">Cybersecurity</span>
+      </div>
+      <p class="project-arrow">View on GitHub →</p>
+    </a>
+
+    <a href="https://github.com/OK-22/soccer-league-management" target="_blank" class="project-card">
+      <p class="project-num">05 / 06</p>
+      <h3 class="project-title">Soccer League Management System</h3>
+      <p class="project-desc">Full SAP R/3 league management app with player registration, match scheduling, and standings using OO-ABAP and custom function modules.</p>
+      <div class="project-stack">
+        <span class="stack-tag">ABAP</span>
+        <span class="stack-tag">SAP R/3</span>
+        <span class="stack-tag">OOP</span>
+        <span class="stack-tag">Database</span>
+      </div>
+      <p class="project-arrow">View on GitHub →</p>
+    </a>
+
+    <a href="https://github.com/OK-22/shopping-cart-abap" target="_blank" class="project-card">
+      <p class="project-num">06 / 06</p>
+      <h3 class="project-title">Shopping Cart Application</h3>
+      <p class="project-desc">Fully functional e-commerce cart built with ABAP Module Pool Programming, interactive Dynpro screens, and integrated inventory management.</p>
+      <div class="project-stack">
+        <span class="stack-tag">ABAP</span>
+        <span class="stack-tag">Module Pool</span>
+        <span class="stack-tag">Dynpro</span>
+        <span class="stack-tag">SAP ECC</span>
+      </div>
+      <p class="project-arrow">View on GitHub →</p>
+    </a>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">// 04 — Academic</p>
+  <h2 class="section-title">Education</h2>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <p class="edu-dates">2024 – 2026</p>
+      <h3 class="edu-degree">MSc in Information Systems</h3>
+      <p class="edu-school">Central Michigan University — Mount Pleasant, MI</p>
+      <p class="edu-courses">ABAP Development, Enterprise Database Management, Systems Analysis & Design, Cybersecurity Analysis, Machine Learning</p>
+      <span class="edu-grade">Grade: 95%</span>
+    </div>
+    <div class="edu-card">
+      <p class="edu-dates">2019 – 2023</p>
+      <h3 class="edu-degree">BSc in Computer Science</h3>
+      <p class="edu-school">Babcock University — Ogun State, Nigeria</p>
+      <p class="edu-courses">Algorithms, Data Structures, Software Engineering, Database Systems, Object-Oriented Programming</p>
+      <span class="edu-grade">Grade: 86%</span>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs" style="padding:4rem;">
+  <p class="section-label" style="color:var(--accent)">// 05 — Credentials</p>
+  <h2 class="section-title" style="color:var(--paper)">Certifications</h2>
+  <div class="certs-grid">
+
+    <div class="cert-card">
+      <div class="cert-img-wrap" onclick="openLightbox('cert-celonis-business.jpg.png')">
+        <img src="cert-celonis-business.jpg.png" alt="Celonis Rising Star Business" loading="lazy"/>
+      </div>
+      <div class="cert-info">
+        <p class="cert-card-name">Process Mining Rising Star: Business Track</p>
+        <div class="cert-card-bottom">
+          <span class="cert-issuer">Celonis</span>
+          <span class="cert-date">Dec 2024</span>
+        </div>
+        <a href="https://www.credly.com/badges/d123ac7f-a29a-46c8-a38c-81a30ac680d1/public_url" target="_blank" class="cert-verify">View Certificate ↗</a>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-img-wrap" onclick="openLightbox('cert-celonis-technical.jpg.png')">
+        <img src="cert-celonis-technical.jpg.png" alt="Celonis Rising Star Technical" loading="lazy"/>
+      </div>
+      <div class="cert-info">
+        <p class="cert-card-name">Process Mining Rising Star: Technical Track</p>
+        <div class="cert-card-bottom">
+          <span class="cert-issuer">Celonis</span>
+          <span class="cert-date">Dec 2024</span>
+        </div>
+        <a href="https://www.credly.com/badges/509bb853-a090-4fa3-9f9c-faf03c3ccf86/public_url" target="_blank" class="cert-verify">View Certificate ↗</a>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-img-wrap" onclick="openLightbox('cert-linkedin.jpg.png')">
+        <img src="cert-linkedin.jpg.png" alt="Generative AI for Business Leaders" loading="lazy"/>
+      </div>
+      <div class="cert-info">
+        <p class="cert-card-name">Generative AI for Business Leaders</p>
+        <div class="cert-card-bottom">
+          <span class="cert-issuer">LinkedIn Learning</span>
+          <span class="cert-date">Jun 2025</span>
+        </div>
+        <a href="https://www.linkedin.com/learning/certificates/143273cec71a0411f32744b7a3583fdd1a795ffa7bcd39fe16295812e5cada0f?trk=share_certificate" target="_blank" class="cert-verify">View Certificate ↗</a>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-img-wrap" onclick="openLightbox('cert-cisco.png.png')">
+        <img src="cert-cisco.png.png" alt="Introduction to Cybersecurity" loading="lazy"/>
+      </div>
+      <div class="cert-info">
+        <p class="cert-card-name">Introduction to Cybersecurity</p>
+        <div class="cert-card-bottom">
+          <span class="cert-issuer">Cisco</span>
+          <span class="cert-date">May 2025</span>
+        </div>
+        <a href="https://www.credly.com/badges/de1018e0-f0d8-4bb6-bbaf-8a8e7db22ae7/linked_in_profile" target="_blank" class="cert-verify">View Certificate ↗</a>
+      </div>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-img-wrap" onclick="openLightbox('cert-deloitte.jpg.png')">
+        <img src="cert-deloitte.jpg.png" alt="Cyber Job Simulation" loading="lazy"/>
+      </div>
+      <div class="cert-info">
+        <p class="cert-card-name">Cyber Job Simulation</p>
+        <div class="cert-card-bottom">
+          <span class="cert-issuer">Deloitte</span>
+          <span class="cert-date">Jun 2025</span>
+        </div>
+        <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/9PBTqmSxAf6zZTseP/E9pA6qsdbeyEkp3ti_9PBTqmSxAf6zZTseP_Qr7ynvSFydNBz2CXX_1750046063027_completion_certificate.pdf" target="_blank" class="cert-verify">View Certificate ↗</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="Certificate"/>
+</div>
+
+<script>
+  function openLightbox(src) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div>
+    <p class="section-label">// 06 — Let's Talk</p>
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="contact-bio">I'm actively looking for Data Science, Machine Learning, SAP/ABAP, and Software Development opportunities. Feel free to reach out — I'd love to connect.</p>
+  </div>
+  <div class="contact-links">
+    <a href="mailto:Rawabolu75@gmail.com" class="contact-link">
+      <span class="contact-link-icon">Email</span>
+      Rawabolu75@gmail.com
+    </a>
+    <a href="https://www.linkedin.com/in/oluwakayode-rawa" target="_blank" class="contact-link">
+      <span class="contact-link-icon">LinkedIn</span>
+      oluwakayode-rawa
+    </a>
+    <a href="https://github.com/OK-22" target="_blank" class="contact-link">
+      <span class="contact-link-icon">GitHub</span>
+      github.com/OK-22
+    </a>
+    <a href="tel:9896211578" class="contact-link">
+      <span class="contact-link-icon">Phone</span>
+      (989) 621-1578
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 Oluwakayode Rawa — All rights reserved</p>
+  <p>Built with HTML · Hosted on GitHub Pages</p>
+</footer>
+
+</body>
+</html>
