@@ -1,906 +1,453 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Oluwakayode Rawa — Data Scientist & Developer</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oluwakayode Rawa | IT systems and automation</title>
+<meta name="description" content="Oluwakayode Rawa builds and monitors IT systems, automates routine work, and documents the results. Linux, Active Directory, Ansible, Docker, SAP, process mining, and applied machine learning.">
+<meta property="og:title" content="Oluwakayode Rawa | IT systems and automation">
+<meta property="og:description" content="Hands-on IT systems, automation, and ML projects, each with its results and its limits written down.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231A4FD6'/%3E%3Ctext x='16' y='22' font-size='15' font-family='sans-serif' font-weight='700' text-anchor='middle' fill='white'%3EOR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<script>
+document.documentElement.classList.add('js');
+try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}
+</script>
 <style>
-  :root {
-    --ink: #0e0e0e;
-    --paper: #f5f2ec;
-    --accent: #c84b2f;
-    --accent2: #2a5c8a;
-    --muted: #6b6560;
-    --border: #d8d3cb;
-    --card: #ffffff;
+:root {
+  color-scheme: light dark;
+  --bg: #F2F5F7;
+  --surface: #FFFFFF;
+  --ink: #16212C;
+  --muted: #4A5967;
+  --line: #CBD5DD;
+  --accent: #1A4FD6;
+  --on-accent: #FFFFFF;
+  --ok: #1B7A4B;
+  --caution: #A15C00;
+  --font: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E151C; --surface: #151E27; --ink: #E7EDF2; --muted: #A3B1BD; --line: #2A3743;
+  --accent: #8FB0FF; --on-accent: #0E151C; --ok: #5CCB93; --caution: #E8A94B;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E151C; --surface: #151E27; --ink: #E7EDF2; --muted: #A3B1BD; --line: #2A3743;
+    --accent: #8FB0FF; --on-accent: #0E151C; --ok: #5CCB93; --caution: #E8A94B;
   }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: 'Sora', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    overflow-x: hidden;
-  }
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; scroll-padding-top: 1.5rem; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 1.0625rem/1.6 var(--font); -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.skip { position: absolute; left: -999px; top: 0; }
+.skip:focus { left: 1rem; top: 1rem; background: var(--surface); color: var(--ink); padding: 0.5rem 0.9rem; z-index: 10; border: 2px solid var(--accent); }
 
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 1.1rem 3rem;
-    background: rgba(245,242,236,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem;
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 2rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
-    text-transform: uppercase; text-decoration: none;
-    color: var(--muted); transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
+.js-only { display: none; }
+.js .js-only { display: inline-block; }
+.js .filters.js-only { display: flex; }
 
-  /* ── HERO ── */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 5rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: center;
-    padding: 4rem 3rem 4rem 4rem;
-  }
-  .hero-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem; color: var(--accent);
-    letter-spacing: 0.15em; text-transform: uppercase;
-    margin-bottom: 1.5rem;
-    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
-  }
-  .hero-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4.5rem);
-    line-height: 1.05;
-    color: var(--ink);
-    margin-bottom: 1.5rem;
-    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
-  }
-  .hero-name em { color: var(--accent); font-style: italic; }
-  .hero-bio {
-    font-size: 1rem; line-height: 1.75;
-    color: var(--muted); max-width: 480px;
-    margin-bottom: 2.5rem;
-    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
-  }
-  .hero-cta {
-    display: flex; gap: 1rem; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
-  }
-  .btn-primary {
-    padding: 0.75rem 1.8rem;
-    background: var(--accent); color: white;
-    font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 500;
-    border: none; border-radius: 2px; cursor: pointer;
-    text-decoration: none; transition: background 0.2s, transform 0.15s;
-  }
-  .btn-primary:hover { background: #a83820; transform: translateY(-1px); }
-  .btn-outline {
-    padding: 0.75rem 1.8rem;
-    background: transparent; color: var(--ink);
-    font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 500;
-    border: 1.5px solid var(--ink); border-radius: 2px; cursor: pointer;
-    text-decoration: none; transition: all 0.2s;
-  }
-  .btn-outline:hover { background: var(--ink); color: var(--paper); }
+.page { display: grid; grid-template-columns: 16rem minmax(0, 1fr); gap: 4rem; max-width: 72rem; margin: 0 auto; padding: 3rem 2rem 4rem; }
+.side { position: sticky; top: 2.5rem; align-self: start; max-height: calc(100vh - 4rem); overflow-y: auto; padding-right: 0.5rem; }
+.side h1 { font-size: 1.75rem; line-height: 1.15; margin: 0 0 0.35rem; letter-spacing: -0.01em; }
+.side .role { margin: 0; color: var(--muted); }
+.side .where { margin: 0.1rem 0 1.25rem; color: var(--muted); }
+.avail { margin: 0 0 1.5rem; padding-left: 0.85rem; border-left: 3px solid var(--accent); font-size: 0.97rem; }
+.side ul { list-style: none; margin: 0 0 1.5rem; padding: 0; }
+.side li { margin: 0.3rem 0; }
+.side nav p { margin: 0 0 0.35rem; font-weight: 700; }
+.side nav a { display: inline-block; padding-left: 0.75rem; border-left: 3px solid transparent; color: var(--muted); text-decoration: none; }
+.side nav a:hover { color: var(--ink); text-decoration: underline; }
+.side nav a[aria-current="true"] { color: var(--ink); font-weight: 700; border-left-color: var(--accent); }
+.textbtn { font: inherit; font-size: 0.95rem; color: var(--accent); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 0.3rem 0.7rem; cursor: pointer; }
+.textbtn:hover { border-color: var(--accent); }
 
-  .hero-right {
-    display: flex; align-items: center; justify-content: center;
-    padding: 4rem 4rem 4rem 2rem;
-    position: relative;
-  }
-  .hero-stats-grid {
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 1rem; width: 100%; max-width: 380px;
-    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
-  }
-  .stat-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 1.5rem;
-    border-radius: 4px;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .stat-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-  .stat-card.accent-card { background: var(--accent); border-color: var(--accent); }
-  .stat-card.accent-card .stat-num,
-  .stat-card.accent-card .stat-label { color: white; }
-  .stat-num {
-    font-family: 'DM Serif Display', serif;
-    font-size: 2.4rem; color: var(--ink); line-height: 1;
-    margin-bottom: 0.4rem;
-  }
-  .stat-label {
-    font-size: 0.75rem; color: var(--muted);
-    font-weight: 500; letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-  .hero-scroll {
-    position: absolute; bottom: 2rem; left: 50%;
-    transform: translateX(-50%);
-    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
-    font-family: 'DM Mono', monospace; font-size: 0.65rem;
-    color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
-    animation: bounce 2s infinite;
-  }
-  .hero-scroll::after {
-    content: ''; width: 1px; height: 40px;
-    background: var(--muted); display: block;
-  }
+main { min-width: 0; max-width: 46rem; }
+.lede { font-size: clamp(1.85rem, 3.4vw, 2.55rem); line-height: 1.15; font-weight: 700; letter-spacing: -0.015em; margin: 0 0 1.5rem; }
+.intro { color: var(--muted); margin: 0 0 1.5rem; }
+.start { list-style: none; margin: 0; padding: 0; }
+.start li { padding: 0.7rem 0; border-top: 1px solid var(--line); }
+.start li:last-child { border-bottom: 1px solid var(--line); }
+.start a { font-weight: 700; }
+.start span { display: block; color: var(--muted); font-size: 0.97rem; }
 
-  /* ── SECTIONS ── */
-  section { padding: 6rem 4rem; }
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--accent);
-    letter-spacing: 0.2em; text-transform: uppercase;
-    margin-bottom: 0.75rem;
-  }
-  .section-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(2rem, 3.5vw, 2.8rem);
-    line-height: 1.1; margin-bottom: 3rem;
-  }
+section { margin-top: 4rem; }
+h2 { font-size: 1.5rem; line-height: 1.2; margin: 0 0 1.25rem; padding-top: 1.25rem; border-top: 2px solid var(--ink); letter-spacing: -0.005em; }
+h3 { font-size: 1.2rem; line-height: 1.3; margin: 0 0 0.3rem; }
+h3 a { text-decoration: none; }
+h3 a:hover { text-decoration: underline; }
 
-  /* ── SKILLS ── */
-  #skills { background: var(--ink); }
-  #skills .section-label { color: var(--accent); }
-  #skills .section-title { color: var(--paper); }
-  .skills-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-  }
-  .skill-group {
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 1.75rem; border-radius: 4px;
-    transition: border-color 0.2s;
-  }
-  .skill-group:hover { border-color: var(--accent); }
-  .skill-group-title {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--accent);
-    letter-spacing: 0.15em; text-transform: uppercase;
-    margin-bottom: 1rem;
-  }
-  .skill-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-  .skill-tag {
-    font-size: 0.78rem; color: rgba(245,242,236,0.75);
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 0.3rem 0.75rem; border-radius: 2px;
-  }
+.filters { flex-wrap: wrap; gap: 0.5rem; margin: 0 0 0.6rem; }
+.chip { font: inherit; font-size: 0.95rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 0.35rem 0.8rem; cursor: pointer; }
+.chip:hover { border-color: var(--accent); }
+.chip[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 700; }
+.status { margin: 0 0 1rem; min-height: 1.6em; color: var(--muted); font-size: 0.95rem; }
 
-  /* ── EXPERIENCE ── */
-  #experience { background: var(--paper); }
-  .exp-item {
-    display: grid; grid-template-columns: 200px 1fr;
-    gap: 3rem; padding: 2.5rem 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .exp-item:first-of-type { border-top: 1px solid var(--border); }
-  .exp-meta { padding-top: 0.2rem; }
-  .exp-company {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem; color: var(--accent);
-    letter-spacing: 0.1em; text-transform: uppercase;
-    margin-bottom: 0.4rem;
-  }
-  .exp-dates { font-size: 0.8rem; color: var(--muted); }
-  .exp-role {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem; margin-bottom: 1rem;
-  }
-  .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
-  .exp-bullets li {
-    font-size: 0.9rem; line-height: 1.65; color: var(--muted);
-    padding-left: 1.2rem; position: relative;
-  }
-  .exp-bullets li::before {
-    content: '—'; position: absolute; left: 0;
-    color: var(--accent); font-size: 0.8rem;
-  }
+.entry { padding: 1.5rem 0; border-bottom: 1px solid var(--line); }
+.entry p { margin: 0; }
+.proof { margin: 0.9rem 0 0; }
+.proof .row { display: grid; grid-template-columns: 5.2rem 1fr; gap: 1rem; padding: 0.55rem 0 0.55rem 0.9rem; border-left: 3px solid var(--ok); }
+.proof .row.limit { border-left-color: var(--caution); }
+.proof dt { font-weight: 700; color: var(--ok); }
+.proof .limit dt { color: var(--caution); }
+.proof dd { margin: 0; }
+.stack { margin-top: 0.75rem !important; color: var(--muted); font-size: 0.95rem; }
 
-  /* ── PROJECTS ── */
-  #projects { background: #f0ece3; }
-  .projects-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-  }
-  .project-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    padding: 2rem; border-radius: 4px;
-    display: flex; flex-direction: column;
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-decoration: none; color: inherit;
-  }
-  .project-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
-  .project-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem; color: var(--accent);
-    letter-spacing: 0.15em; margin-bottom: 1rem;
-  }
-  .project-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem; margin-bottom: 0.75rem; line-height: 1.3;
-  }
-  .project-desc {
-    font-size: 0.85rem; line-height: 1.7;
-    color: var(--muted); flex: 1; margin-bottom: 1.5rem;
-  }
-  .project-stack { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .stack-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.68rem; padding: 0.2rem 0.6rem;
-    background: var(--paper); border: 1px solid var(--border);
-    border-radius: 2px; color: var(--muted);
-  }
-  .project-arrow {
-    margin-top: 1.25rem; font-size: 0.8rem; color: var(--accent);
-    font-weight: 500; display: flex; align-items: center; gap: 0.3rem;
-  }
+.more { list-style: none; margin: 0; padding: 0; }
+.more li { padding: 0.55rem 0; border-bottom: 1px solid var(--line); }
+.more li:first-child { border-top: 1px solid var(--line); }
+.group-title { margin: 2rem 0 0.5rem; font-size: 1.05rem; }
 
-  /* ── EDUCATION ── */
-  #education { background: var(--paper); }
-  .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-  .edu-card {
-    background: var(--card); border: 1px solid var(--border);
-    padding: 2rem; border-radius: 4px;
-    transition: transform 0.2s;
-  }
-  .edu-card:hover { transform: translateY(-2px); }
-  .edu-degree {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem; margin-bottom: 0.4rem;
-  }
-  .edu-school { font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; }
-  .edu-dates {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: var(--accent);
-    letter-spacing: 0.1em; margin-bottom: 1rem;
-  }
-  .edu-courses { font-size: 0.8rem; line-height: 1.7; color: var(--muted); }
-  .edu-grade {
-    display: inline-block; margin-top: 1rem;
-    font-family: 'DM Mono', monospace; font-size: 0.75rem;
-    color: var(--accent); border: 1px solid var(--accent);
-    padding: 0.2rem 0.6rem; border-radius: 2px;
-  }
+.job h3 { margin-bottom: 0; }
+.meta { margin: 0 0 0.75rem; color: var(--muted); }
+.job ul { margin: 0; padding-left: 1.2rem; }
+.job li { margin: 0.4rem 0; }
+.tight p { margin: 0.35rem 0; }
 
-  /* ── CERTS ── */
-  #certs { background: var(--ink); }
-  #certs .section-title { color: var(--paper); }
-  .certs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-  }
-  .cert-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 6px; overflow: hidden;
-    display: flex; flex-direction: column;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
-  }
-  .cert-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255,255,255,0.3);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5);
-  }
-  .cert-img-wrap {
-    width: 100%; aspect-ratio: 16/10; overflow: hidden;
-    background: #fff; cursor: pointer;
-  }
-  .cert-img-wrap img {
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform 0.3s;
-  }
-  .cert-card:hover .cert-img-wrap img { transform: scale(1.04); }
-  .cert-info {
-    padding: 1.1rem 1.3rem;
-    display: flex; flex-direction: column; gap: 0.4rem; flex: 1;
-  }
-  .cert-card-name {
-    font-size: 0.88rem; color: var(--paper); font-weight: 500; line-height: 1.4;
-  }
-  .cert-card-bottom {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 0.6rem;
-  }
-  .cert-issuer {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.65rem; color: var(--accent);
-    letter-spacing: 0.1em; text-transform: uppercase;
-  }
-  .cert-date {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.62rem; color: rgba(255,255,255,0.3);
-  }
-  .cert-verify {
-    display: inline-block; margin-top: 0.8rem;
-    font-family: 'DM Mono', monospace; font-size: 0.65rem;
-    letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--paper); text-decoration: none;
-    border: 1px solid rgba(255,255,255,0.25);
-    padding: 0.3rem 0.75rem; border-radius: 2px;
-    transition: background 0.2s, color 0.2s; align-self: flex-start;
-  }
-  .cert-verify:hover { background: var(--paper); color: var(--ink); }
-  /* Lightbox */
-  .lightbox {
-    display: none; position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.93);
-    justify-content: center; align-items: center; padding: 2rem;
-  }
-  .lightbox.open { display: flex; }
-  .lightbox img {
-    max-width: 90vw; max-height: 88vh;
-    border-radius: 4px; box-shadow: 0 24px 80px rgba(0,0,0,0.6);
-  }
-  .lightbox-close {
-    position: fixed; top: 1.2rem; right: 1.8rem;
-    font-size: 2.2rem; color: white; cursor: pointer;
-    background: none; border: none; line-height: 1; opacity: 0.7;
-    transition: opacity 0.2s;
-  }
-  .lightbox-close:hover { opacity: 1; }
+.skills { margin: 0; }
+.skills .row { display: grid; grid-template-columns: 11.5rem 1fr; gap: 1rem; padding: 0.7rem 0; border-top: 1px solid var(--line); }
+.skills .row:last-child { border-bottom: 1px solid var(--line); }
+.skills dt { font-weight: 700; }
+.skills dd { margin: 0; }
 
-  /* ── CONTACT ── */
-  #contact {
-    background: var(--accent);
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 4rem; align-items: center;
-    padding: 6rem 4rem;
-  }
-  #contact .section-label { color: rgba(255,255,255,0.6); }
-  #contact .section-title { color: white; margin-bottom: 1.5rem; }
-  .contact-bio { font-size: 1rem; line-height: 1.75; color: rgba(255,255,255,0.8); }
-  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
-  .contact-link {
-    display: flex; align-items: center; gap: 1rem;
-    padding: 1.25rem 1.5rem;
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 4px; text-decoration: none;
-    color: white; font-size: 0.9rem;
-    transition: background 0.2s;
-  }
-  .contact-link:hover { background: rgba(255,255,255,0.2); }
-  .contact-link-icon {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; letter-spacing: 0.1em;
-    text-transform: uppercase; color: rgba(255,255,255,0.6);
-    min-width: 60px;
-  }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.98rem; }
+th, td { text-align: left; padding: 0.6rem 0.9rem 0.6rem 0; border-top: 1px solid var(--line); vertical-align: top; }
+th { font-weight: 700; }
+thead th { border-top: 0; border-bottom: 2px solid var(--ink); }
+.also { margin-top: 1rem; color: var(--muted); font-size: 0.97rem; }
 
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink); padding: 2rem 4rem;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-  footer p {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem; color: rgba(255,255,255,0.3);
-    letter-spacing: 0.08em;
-  }
+.contact p { margin: 0 0 0.6rem; }
+.copy-note { margin-left: 0.5rem; color: var(--ok); font-weight: 700; }
+.resumes { list-style: none; margin: 0.5rem 0 0; padding: 0; }
+.resumes li { padding: 0.5rem 0; border-top: 1px solid var(--line); }
+.resumes li:last-child { border-bottom: 1px solid var(--line); }
+.resumes span { color: var(--muted); font-size: 0.95rem; }
+footer { margin-top: 4rem; padding-top: 1.25rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.93rem; }
+footer p { margin: 0.25rem 0; }
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(6px); }
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 768px) {
-    nav { padding: 1rem 1.5rem; }
-    .nav-links { gap: 1rem; }
-    #hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 2rem 1.5rem; }
-    .hero-right { padding: 2rem 1.5rem; }
-    section { padding: 4rem 1.5rem; }
-    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
-    .edu-grid { grid-template-columns: 1fr; }
-    #contact { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
-    footer { flex-direction: column; gap: 0.5rem; padding: 1.5rem; }
-  }
+@media (max-width: 56rem) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 2.25rem; padding: 2rem 1.25rem 3rem; }
+  .side { position: static; max-height: none; overflow: visible; }
+  .side ul.inline { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
+}
+@media (max-width: 34rem) {
+  .proof .row { grid-template-columns: 1fr; gap: 0.1rem; }
+  .skills .row { grid-template-columns: 1fr; gap: 0.15rem; }
+}
+@media print {
+  .side nav, .filters, .status, .js-only, .skip { display: none !important; }
+  .page { display: block; padding: 0; }
+  .side { position: static; max-height: none; }
+  a { color: inherit; }
+}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">OK — 22</a>
-  <ul class="nav-links">
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow">// Available for opportunities</p>
-    <h1 class="hero-name">Oluwakayode<br><em>Rawa</em></h1>
-    <p class="hero-bio">Applied Data Scientist & SAP/ABAP Developer with a passion for AI, cybersecurity, and building systems that solve real problems. MSc in Information Systems — Central Michigan University.</p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn-primary">View Projects</a>
-      <a href="https://www.linkedin.com/in/oluwakayode-rawa" target="_blank" class="btn-outline">LinkedIn</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-stats-grid">
-      <div class="stat-card accent-card">
-        <div class="stat-num">6+</div>
-        <div class="stat-label">Projects on GitHub</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">95%</div>
-        <div class="stat-label">MSc Grade</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">4+</div>
-        <div class="stat-label">Years Dev Experience</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">9</div>
-        <div class="stat-label">Certifications</div>
-      </div>
-    </div>
-  </div>
-  <div class="hero-scroll">Scroll</div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <p class="section-label">// 01 — Expertise</p>
-  <h2 class="section-title" style="color:var(--paper)">Technical Skills</h2>
-  <div class="skills-grid">
-    <div class="skill-group">
-      <p class="skill-group-title">Languages</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">ABAP</span>
-        <span class="skill-tag">Java</span>
-        <span class="skill-tag">C/C++</span>
-        <span class="skill-tag">VB.NET</span>
-        <span class="skill-tag">MySQL</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Data Science & ML</p>
-      <div class="skill-tags">
-        <span class="skill-tag">scikit-learn</span>
-        <span class="skill-tag">Pandas</span>
-        <span class="skill-tag">NumPy</span>
-        <span class="skill-tag">Matplotlib</span>
-        <span class="skill-tag">Statistical Analysis</span>
-        <span class="skill-tag">Machine Learning</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">SAP / Enterprise</p>
-      <div class="skill-tags">
-        <span class="skill-tag">SAP ECC</span>
-        <span class="skill-tag">ABAP Workbench</span>
-        <span class="skill-tag">Module Pool</span>
-        <span class="skill-tag">Dynpro</span>
-        <span class="skill-tag">ERPsim</span>
-        <span class="skill-tag">Celonis</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Cybersecurity</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Nmap</span>
-        <span class="skill-tag">Metasploit</span>
-        <span class="skill-tag">Wireshark</span>
-        <span class="skill-tag">BurpSuite</span>
-        <span class="skill-tag">SPLUNK</span>
-        <span class="skill-tag">Kali Linux</span>
-        <span class="skill-tag">NIST Framework</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Databases & DevOps</p>
-      <div class="skill-tags">
-        <span class="skill-tag">MySQL</span>
-        <span class="skill-tag">NoSQL</span>
-        <span class="skill-tag">dbt</span>
-        <span class="skill-tag">Git</span>
-        <span class="skill-tag">Linux</span>
-        <span class="skill-tag">SQL/PSM</span>
-      </div>
-    </div>
-    <div class="skill-group">
-      <p class="skill-group-title">Web Development</p>
-      <div class="skill-tags">
-        <span class="skill-tag">Python Backend</span>
-        <span class="skill-tag">Flask</span>
-        <span class="skill-tag">HTML/CSS</span>
-        <span class="skill-tag">REST APIs</span>
-        <span class="skill-tag">SQL Optimization</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <p class="section-label">// 02 — Career</p>
-  <h2 class="section-title">Work Experience</h2>
-
-  <div class="exp-item">
-    <div class="exp-meta">
-      <p class="exp-company">Metrosoft Limited</p>
-      <p class="exp-dates">Jan 2022 – Jul 2024</p>
-    </div>
-    <div>
-      <h3 class="exp-role">Web Developer</h3>
-      <ul class="exp-bullets">
-        <li>Architected and deployed responsive web applications with optimized SQL queries and Python-based backend systems.</li>
-        <li>Collaborated with cross-functional teams (UI/UX, QA, content) to deliver scalable, data-driven solutions.</li>
-        <li>Implemented database optimization strategies resulting in <strong>30% improvement</strong> in application response times.</li>
-        <li>Developed dynamic content generation features using Python integrations and SQL-driven data processing.</li>
+<a class="skip" href="#main">Skip to content</a>
+<div class="page">
+  <header class="side">
+    <h1>Oluwakayode Rawa</h1>
+    <p class="role">IT systems and automation</p>
+    <p class="where">Indianapolis, Indiana</p>
+    <p class="avail">Open to IT support, systems administration, automation, SAP, and data and ML roles.</p>
+    <ul class="inline" aria-label="Links">
+      <li><a href="Oluwakayode_Rawa_Resume.pdf">Resume (PDF)</a></li>
+      <li><a href="https://github.com/OK-22">GitHub</a></li>
+      <li><a href="https://linkedin.com/in/oluwakayode-rawa-123635253">LinkedIn</a></li>
+      <li><a href="mailto:rawabolu75@gmail.com">Email</a></li>
+    </ul>
+    <nav aria-label="Sections">
+      <p>On this page</p>
+      <ul class="inline">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
-    </div>
-  </div>
+    </nav>
+    <button type="button" id="theme" class="textbtn js-only" aria-label="Change color theme">Theme: Auto</button>
+  </header>
 
-  <div class="exp-item">
-    <div class="exp-meta">
-      <p class="exp-company">Six Flags</p>
-      <p class="exp-dates">2021 – 2023</p>
-    </div>
-    <div>
-      <h3 class="exp-role">Operations & Food Services Associate</h3>
-      <ul class="exp-bullets">
-        <li>Delivered exceptional customer service while maintaining strict safety protocols and operational standards.</li>
-        <li>Supervised team members and coordinated workflow processes in a fast-paced, high-volume environment.</li>
+  <main id="main">
+    <p class="lede">I set up and monitor IT systems, automate routine work, and write down what the results do and do not show.</p>
+    <p class="intro">I have an M.S. in Information Systems and about two and a half years of systems development and integration experience. Everything below is public on GitHub, and each project's README states its results and its limits, including which data was simulated and what was never deployed.</p>
+    <ul class="start" aria-label="Start here">
+      <li><a href="https://github.com/OK-22/homelab-docs">Linux and Active Directory homelab</a><span>Help desk access delegated and tested, with four knowledge-base articles.</span></li>
+      <li><a href="https://github.com/OK-22/monitoring-homelab">Monitoring and alerting</a><span>A server-down alert tested with a planned outage, plus a runbook and a postmortem.</span></li>
+      <li><a href="https://github.com/OK-22/ticket-triage">Help desk ticket classifier</a><span>A small ML service, evaluated on tickets kept apart from its training data.</span></li>
+    </ul>
+
+    <section id="projects" aria-labelledby="projects-h">
+      <h2 id="projects-h">Projects</h2>
+      <div class="filters js-only" role="group" aria-label="Filter projects by area">
+        <button type="button" class="chip" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-filter="systems" aria-pressed="false">Systems</button>
+        <button type="button" class="chip" data-filter="devops" aria-pressed="false">DevOps and cloud</button>
+        <button type="button" class="chip" data-filter="automation" aria-pressed="false">Automation</button>
+        <button type="button" class="chip" data-filter="data" aria-pressed="false">Data and ML</button>
+        <button type="button" class="chip" data-filter="sap" aria-pressed="false">SAP and process mining</button>
+        <button type="button" class="chip" data-filter="security" aria-pressed="false">Security</button>
+      </div>
+      <p id="filter-status" class="status" role="status" aria-live="polite"></p>
+
+      <article class="entry" data-tags="systems security">
+        <h3><a href="https://github.com/OK-22/homelab-docs">Linux and Active Directory homelab</a></h3>
+        <p>Two Ubuntu Server machines, a Windows Server 2022 domain controller, and a domain-joined Windows 10 workstation in VirtualBox, documented with four knowledge-base articles.</p>
+        <dl class="proof">
+          <div class="row"><dt>Showed</dt><dd>Key-only SSH, a least-privilege sudo rule, and delegated help desk password resets that worked for ordinary users and were refused for the built-in Administrator account.</dd></div>
+          <div class="row limit"><dt>Limit</dt><dd>A small virtual lab on one laptop, not a production network.</dd></div>
+        </dl>
+        <p class="stack">Ubuntu Server, Windows Server 2022, Active Directory, PowerShell</p>
+      </article>
+
+      <article class="entry" data-tags="systems devops">
+        <h3><a href="https://github.com/OK-22/monitoring-homelab">Monitoring and alerting</a></h3>
+        <p>Prometheus and Grafana in Docker watching both servers, with the agent installed by Ansible, three alert rules, a runbook, and a mock postmortem.</p>
+        <dl class="proof">
+          <div class="row"><dt>Showed</dt><dd>A planned shutdown made the server-down alert go pending and then firing about a minute later, and the error text pointed to a powered-off host.</dd></div>
+          <div class="row limit"><dt>Limit</dt><dd>Alerts appear in Prometheus only, so nothing sends email or chat. Bringing the server back took about 29 minutes because it froze while booting, and the postmortem records that.</dd></div>
+        </dl>
+        <p class="stack">Prometheus, Grafana, Docker, Ansible</p>
+      </article>
+
+      <article class="entry" data-tags="systems devops automation">
+        <h3><a href="https://github.com/OK-22/ansible-homelab">Ansible baseline</a></h3>
+        <p>One playbook that sets packages, users, SSH hardening, and a sudo rule on both servers.</p>
+        <dl class="proof">
+          <div class="row"><dt>Showed</dt><dd>A repeat run changed nothing, and a deliberately removed sudo rule was detected and restored on the next run.</dd></div>
+          <div class="row limit"><dt>Limit</dt><dd>Two servers and a single playbook, with no roles and no secrets handling.</dd></div>
+        </dl>
+        <p class="stack">Ansible, YAML, Ubuntu Server</p>
+      </article>
+
+      <article class="entry" data-tags="devops">
+        <h3><a href="https://github.com/OK-22/cloud-pipeline">Cloud pipeline</a></h3>
+        <p>A GitHub Actions pipeline that tests a small Flask app, validates Terraform, and publishes a container image.</p>
+        <dl class="proof">
+          <div class="row"><dt>Showed</dt><dd>The pipeline passed on its first run in 43 seconds, and the published image ran on a separate server.</dd></div>
+          <div class="row limit"><dt>Limit</dt><dd>The Terraform for an AWS network and web server is validated but was never applied. No cloud deployment is claimed.</dd></div>
+        </dl>
+        <p class="stack">Docker, GitHub Actions, Terraform, Flask</p>
+      </article>
+
+      <article class="entry" data-tags="data automation">
+        <h3><a href="https://github.com/OK-22/ticket-triage">Ticket triage service</a></h3>
+        <p>A FastAPI service that sorts IT help desk tickets into six categories and suggests the best-matching knowledge-base article.</p>
+        <dl class="proof">
+          <div class="row"><dt>Showed</dt><dd>87.5% accuracy (42 of 48) on hand-written tickets kept separate from training. On the template-generated training data it scored 99.9%, which is why the separate set matters. The README lists all six mistakes.</dd></div>
+          <div class="row limit"><dt>Limit</dt><dd>The training data is synthetic, the test set is small, and article search only matches shared words.</dd></div>
+        </dl>
+        <p class="stack">Python, scikit-learn, FastAPI, Docker</p>
+      </article>
+
+      <article class="entry" data-tags="data sap">
+        <h3><a href="https://github.com/OK-22/p2p-process-mining">Purchase-to-pay process mining</a></h3>
+        <p>Process mining and an early-warning rule for late purchase-to-pay cases. A <a href="https://github.com/OK-22/process-mining-architecture">design package</a> describes how a production version could work.</p>
+        <dl class="proof">
+          <div class="row"><dt>Showed</dt><dd>On a simulated log of 20,000 cases, the rule caught 98% of late cases on a held-out 30%, with 31% precision (3.2 times better than picking cases at random).</dd></div>
+          <div class="row limit"><dt>Limit</dt><dd>The data is simulated, so real performance is unknown, and about two in three alerts were false alarms. The design package is design only.</dd></div>
+        </dl>
+        <p class="stack">Python, PM4Py, pandas</p>
+      </article>
+
+      <h3 class="group-title" id="more-title">More work</h3>
+      <ul class="more" id="more-list">
+        <li data-tags="automation sap"><strong><a href="https://github.com/OK-22/invoice-automation">invoice-automation</a></strong>: UiPath and Python bot that checked 200 synthetic invoices against purchase orders in 4 seconds and caught 26 of 26 injected errors.</li>
+        <li data-tags="security devops automation"><strong><a href="https://github.com/OK-22/scan-change-alerts">scan-change-alerts</a></strong>: a daily nmap scan that opens a GitHub issue only when a new open port appears.</li>
+        <li data-tags="security"><strong><a href="https://github.com/OK-22/network-vulnerability-tool">network-vulnerability-tool</a></strong>: port and service scanner with JSON and HTML reports (Python, Nmap).</li>
+        <li data-tags="security"><strong><a href="https://github.com/OK-22/enterprise-auth-system">enterprise-auth-system</a></strong>: TOTP multi-factor authentication with QR codes and bcrypt (Python, Flask).</li>
+        <li data-tags="data"><strong><a href="https://github.com/OK-22/sports-analytics-platform">sports-analytics-platform</a></strong>: model that predicts English Premier League match outcomes from historical team data.</li>
+        <li data-tags="sap"><strong><a href="https://github.com/OK-22/soccer-league-management">soccer-league-management</a></strong> and <strong><a href="https://github.com/OK-22/shopping-cart-abap">shopping-cart-abap</a></strong>: SAP applications in OO-ABAP and module pool programming.</li>
+        <li data-tags="other"><strong><a href="https://github.com/OK-22/fixlyst">fixlyst</a></strong>: booking marketplace prototype for home services (Python, Figma).</li>
       </ul>
-    </div>
-  </div>
+    </section>
 
-  <div class="exp-item">
-    <div class="exp-meta">
-      <p class="exp-company">Achievement</p>
-      <p class="exp-dates">CMU — 2025</p>
-    </div>
-    <div>
-      <h3 class="exp-role">🥉 Third Place — ERPsim Business Simulation</h3>
-      <ul class="exp-bullets">
-        <li>Led cross-functional team optimizing procurement, sales, and financial processes using SAP ECC in a real-time competitive environment.</li>
-        <li>Demonstrated strategic decision-making with mentorship from Stryker Corporation industry experts.</li>
+    <section id="experience" aria-labelledby="experience-h">
+      <h2 id="experience-h">Experience and education</h2>
+      <article class="job entry">
+        <h3>Integration Analyst, Systems Developer Technical Consultant</h3>
+        <p class="meta">Metrosoft Ltd, January 2022 to July 2024</p>
+        <ul>
+          <li>Built Python and SQL backend services and REST APIs for 5+ production clients, integrating 10+ third-party systems with retry logic and input validation.</li>
+          <li>Resolved issues across 5+ client environments through root-cause analysis and documented fixes.</li>
+          <li>Cut application response times 30% across 3 product lines by optimizing MySQL queries and service workflows.</li>
+          <li>Wrote 20+ technical documents (API specs, UAT test cases, defect reports, user guides) and supported go-live and upgrade cycles.</li>
+          <li>Turned requirements from 10+ stakeholders into specifications over 6+ Agile sprints.</li>
+        </ul>
+      </article>
+      <article class="entry tight">
+        <h3>Education</h3>
+        <p><strong>M.S. in Information Systems</strong>, Central Michigan University, 2024 to 2026, GPA 3.64.</p>
+        <p><strong>B.S. in Computer Science</strong>, Babcock University, 2019 to 2023, GPA 3.72.</p>
+      </article>
+      <article class="entry tight">
+        <h3>Also</h3>
+        <p><strong>ERPsim competition, third place.</strong> Our team led the first three rounds and finished third in Flight 3 of Central Michigan University's ERPsim competition in February 2025, mentored by people from Stryker.</p>
+        <p><strong>Research manuscript, not yet published.</strong> "Securing the Internet of Things: Applying the NIST Cybersecurity Framework Across Critical Sectors." See my <a href="https://orcid.org/0009-0001-9415-6836">ORCID record</a>.</p>
+        <p><strong>Security coursework.</strong> A black-box penetration test and ten digital forensics labs covering memory, network, and mobile investigations.</p>
+      </article>
+    </section>
+
+    <section id="skills" aria-labelledby="skills-h">
+      <h2 id="skills-h">Skills</h2>
+      <dl class="skills">
+        <div class="row"><dt>Systems</dt><dd>Ubuntu Server, Windows Server 2022, Active Directory, PowerShell, Bash, SSH hardening, DNS, LVM, systemd, VirtualBox</dd></div>
+        <div class="row"><dt>Cloud and DevOps</dt><dd>Ansible, Docker, GitHub Actions, Terraform, AWS (EC2, VPC), Prometheus, Grafana, Git</dd></div>
+        <div class="row"><dt>Programming and data</dt><dd>Python, SQL, MySQL, Java, C/C++, JavaScript, ABAP, scikit-learn, pandas, NumPy, FastAPI, Flask, REST APIs, PM4Py</dd></div>
+        <div class="row"><dt>SAP and automation</dt><dd>SAP ECC (FI/CO, MM, SD), S/4HANA, OO-ABAP, BAPIs, CDS views, OData, Celonis, UiPath, Power Automate</dd></div>
+        <div class="row"><dt>Security</dt><dd>Nmap, Wireshark, Metasploit, Burp Suite, Kali Linux, Nessus, Volatility, Autopsy, NIST Cybersecurity Framework, incident response, TOTP and MFA</dd></div>
+        <div class="row"><dt>Tools</dt><dd>JIRA, ServiceNow, Microsoft 365, SharePoint, Power BI, Agile and Scrum</dd></div>
+      </dl>
+    </section>
+
+    <section id="certifications" aria-labelledby="certifications-h">
+      <h2 id="certifications-h">Certifications</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Certification</th><th scope="col">Issuer</th><th scope="col">Date</th></tr></thead>
+          <tbody>
+            <tr><td>Google IT Support Professional Certificate</td><td>Google and Coursera</td><td>April 2026</td></tr>
+            <tr><td>Certified in Cybersecurity (CC)</td><td>ISC2 and Coursera</td><td>April 2026</td></tr>
+            <tr><td>SAP Technology Consultant Professional Certificate</td><td>SAP and Coursera</td><td>April 2026</td></tr>
+            <tr><td>IBM Business Analyst Professional Certificate</td><td>IBM and Coursera</td><td>April 2026</td></tr>
+            <tr><td>Process Mining Rising Star, Business and Technical tracks</td><td>Celonis</td><td>December 2024</td></tr>
+            <tr><td>Generative AI for Business Leaders</td><td>LinkedIn Learning</td><td>June 2025</td></tr>
+            <tr><td>Introduction to Cybersecurity</td><td>Cisco</td><td>May 2025</td></tr>
+            <tr><td>Cyber Job Simulation</td><td>Deloitte</td><td>June 2025</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="also">Also completed: Oracle OCI Foundations, Agentic AI Foundations, and Fusion AI Agent Studio Foundations (Associate); UiPath Automation Developer Associate Training (diploma of completion, October 2026); Anthropic Academy AI Fluency; FEMA IS-100.c, IS-200.c, IS-700.b, and IS-800.d.</p>
+    </section>
+
+    <section id="contact" class="contact" aria-labelledby="contact-h">
+      <h2 id="contact-h">Contact</h2>
+      <p>The quickest way to reach me is email: <a id="email-link" href="mailto:rawabolu75@gmail.com">rawabolu75@gmail.com</a> <button type="button" id="copy-email" class="textbtn js-only">Copy address</button><span id="copy-status" class="copy-note" role="status" aria-live="polite"></span></p>
+      <p>I am also on <a href="https://linkedin.com/in/oluwakayode-rawa-123635253">LinkedIn</a> and <a href="https://github.com/OK-22">GitHub</a>.</p>
+      <h3 class="group-title">Resumes</h3>
+      <p>Each one is a one-page PDF. Pick the one closest to the role.</p>
+      <ul class="resumes">
+        <li><a href="Oluwakayode_Rawa_Resume.pdf">Master</a> <span>All roles</span></li>
+        <li><a href="Oluwakayode_Rawa_Resume_HelpDesk.pdf">Help desk and IT support</a> <span>Support, Active Directory, documentation</span></li>
+        <li><a href="Oluwakayode_Rawa_Resume_LinuxAdmin.pdf">Linux and systems administration</a> <span>Servers, Ansible, monitoring</span></li>
+        <li><a href="Oluwakayode_Rawa_Resume_DataCenter.pdf">Data center and operations</a> <span>Infrastructure, monitoring, runbooks</span></li>
+        <li><a href="Oluwakayode_Rawa_Resume_Automation.pdf">Automation, SAP, and integration</a> <span>UiPath, process mining, APIs</span></li>
+        <li><a href="Oluwakayode_Rawa_Resume_AIML.pdf">Applied machine learning</a> <span>scikit-learn, FastAPI, evaluation</span></li>
       </ul>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <p class="section-label">// 03 — Work</p>
-  <h2 class="section-title">Featured Projects</h2>
-  <div class="projects-grid">
-
-    <a href="https://github.com/OK-22/fixlyst" target="_blank" class="project-card" style="border-left: 3px solid var(--accent); padding: 0; overflow: hidden;">
-      <div style="width:100%; aspect-ratio:16/8; overflow:hidden; background:#f0ece3;">
-        <img src="Fixlyst.png" alt="Fixlyst Home Services Platform" style="width:100%; height:100%; object-fit:cover; object-position: top; display:block; transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'"/>
-      </div>
-      <div style="padding: 2rem;">
-      <p class="project-num">01 / 06</p>
-      <h3 class="project-title">Fixlyst — Home Services Booking Platform</h3>
-      <p class="project-desc">A full-stack home services marketplace connecting homeowners with verified local professionals for cleaning, plumbing, electrical work, AC repair, painting and more. Features service browsing, pro booking, and a clean responsive UI.</p>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">Figma</span>
-        <span class="stack-tag">UI/UX Design</span>
-        <span class="stack-tag">Responsive</span>
-      </div>
-      <p class="project-arrow">View on GitHub →</p>
-      </div>
-    </a>
-
-    <a href="https://github.com/OK-22/sports-analytics-platform" target="_blank" class="project-card">
-      <p class="project-num">02 / 06</p>
-      <h3 class="project-title">AI-Powered Sports Analytics Platform</h3>
-      <p class="project-desc">Machine learning model predicting English Premier League match outcomes using historical team performance data and statistical modeling.</p>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">scikit-learn</span>
-        <span class="stack-tag">Pandas</span>
-        <span class="stack-tag">Statistics</span>
-      </div>
-      <p class="project-arrow">View on GitHub →</p>
-    </a>
-
-    <a href="https://github.com/OK-22/enterprise-auth-system" target="_blank" class="project-card">
-      <p class="project-num">03 / 06</p>
-      <h3 class="project-title">Enterprise Security Authentication System</h3>
-      <p class="project-desc">Secure TOTP multi-factor authentication with QR code integration and encrypted credential management using bcrypt.</p>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">Flask</span>
-        <span class="stack-tag">Cryptography</span>
-        <span class="stack-tag">HTML/CSS</span>
-      </div>
-      <p class="project-arrow">View on GitHub →</p>
-    </a>
-
-    <a href="https://github.com/OK-22/network-vulnerability-tool" target="_blank" class="project-card">
-      <p class="project-num">04 / 06</p>
-      <h3 class="project-title">Network Vulnerability Assessment Tool</h3>
-      <p class="project-desc">Automated security scanner detecting open ports, running services, and vulnerabilities with JSON/HTML report generation.</p>
-      <div class="project-stack">
-        <span class="stack-tag">Python</span>
-        <span class="stack-tag">Nmap</span>
-        <span class="stack-tag">SQL</span>
-        <span class="stack-tag">Cybersecurity</span>
-      </div>
-      <p class="project-arrow">View on GitHub →</p>
-    </a>
-
-    <a href="https://github.com/OK-22/soccer-league-management" target="_blank" class="project-card">
-      <p class="project-num">05 / 06</p>
-      <h3 class="project-title">Soccer League Management System</h3>
-      <p class="project-desc">Full SAP R/3 league management app with player registration, match scheduling, and standings using OO-ABAP and custom function modules.</p>
-      <div class="project-stack">
-        <span class="stack-tag">ABAP</span>
-        <span class="stack-tag">SAP R/3</span>
-        <span class="stack-tag">OOP</span>
-        <span class="stack-tag">Database</span>
-      </div>
-      <p class="project-arrow">View on GitHub →</p>
-    </a>
-
-    <a href="https://github.com/OK-22/shopping-cart-abap" target="_blank" class="project-card">
-      <p class="project-num">06 / 06</p>
-      <h3 class="project-title">Shopping Cart Application</h3>
-      <p class="project-desc">Fully functional e-commerce cart built with ABAP Module Pool Programming, interactive Dynpro screens, and integrated inventory management.</p>
-      <div class="project-stack">
-        <span class="stack-tag">ABAP</span>
-        <span class="stack-tag">Module Pool</span>
-        <span class="stack-tag">Dynpro</span>
-        <span class="stack-tag">SAP ECC</span>
-      </div>
-      <p class="project-arrow">View on GitHub →</p>
-    </a>
-
-  </div>
-</section>
-
-<!-- EDUCATION -->
-<section id="education">
-  <p class="section-label">// 04 — Academic</p>
-  <h2 class="section-title">Education</h2>
-  <div class="edu-grid">
-    <div class="edu-card">
-      <p class="edu-dates">2024 – 2026</p>
-      <h3 class="edu-degree">MSc in Information Systems</h3>
-      <p class="edu-school">Central Michigan University — Mount Pleasant, MI</p>
-      <p class="edu-courses">ABAP Development, Enterprise Database Management, Systems Analysis & Design, Cybersecurity Analysis, Machine Learning</p>
-      <span class="edu-grade">Grade: 95%</span>
-    </div>
-    <div class="edu-card">
-      <p class="edu-dates">2019 – 2023</p>
-      <h3 class="edu-degree">BSc in Computer Science</h3>
-      <p class="edu-school">Babcock University — Ogun State, Nigeria</p>
-      <p class="edu-courses">Algorithms, Data Structures, Software Engineering, Database Systems, Object-Oriented Programming</p>
-      <span class="edu-grade">Grade: 86%</span>
-    </div>
-  </div>
-</section>
-
-<!-- CERTS -->
-<section id="certs" style="padding:4rem;">
-  <p class="section-label" style="color:var(--accent)">// 05 — Credentials</p>
-  <h2 class="section-title" style="color:var(--paper)">Certifications</h2>
-  <div class="certs-grid">
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('cert-celonis-business.jpg.png')">
-        <img src="cert-celonis-business.jpg.png" alt="Celonis Rising Star Business" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Process Mining Rising Star: Business Track</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">Celonis</span>
-          <span class="cert-date">Dec 2024</span>
-        </div>
-        <a href="https://www.credly.com/badges/d123ac7f-a29a-46c8-a38c-81a30ac680d1/public_url" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('cert-celonis-technical.jpg.png')">
-        <img src="cert-celonis-technical.jpg.png" alt="Celonis Rising Star Technical" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Process Mining Rising Star: Technical Track</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">Celonis</span>
-          <span class="cert-date">Dec 2024</span>
-        </div>
-        <a href="https://www.credly.com/badges/509bb853-a090-4fa3-9f9c-faf03c3ccf86/public_url" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('cert-linkedin.jpg.png')">
-        <img src="cert-linkedin.jpg.png" alt="Generative AI for Business Leaders" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Generative AI for Business Leaders</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">LinkedIn Learning</span>
-          <span class="cert-date">Jun 2025</span>
-        </div>
-        <a href="https://www.linkedin.com/learning/certificates/143273cec71a0411f32744b7a3583fdd1a795ffa7bcd39fe16295812e5cada0f?trk=share_certificate" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('cert-cisco.png.png')">
-        <img src="cert-cisco.png.png" alt="Introduction to Cybersecurity" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Introduction to Cybersecurity</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">Cisco</span>
-          <span class="cert-date">May 2025</span>
-        </div>
-        <a href="https://www.credly.com/badges/de1018e0-f0d8-4bb6-bbaf-8a8e7db22ae7/linked_in_profile" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('cert-deloitte.jpg.png')">
-        <img src="cert-deloitte.jpg.png" alt="Cyber Job Simulation" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Cyber Job Simulation</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">Deloitte</span>
-          <span class="cert-date">Jun 2025</span>
-        </div>
-        <a href="https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/9PBTqmSxAf6zZTseP/E9pA6qsdbeyEkp3ti_9PBTqmSxAf6zZTseP_Qr7ynvSFydNBz2CXX_1750046063027_completion_certificate.pdf" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('Google-IT-Suppport.png')">
-        <img src="Google-IT-Suppport.png" alt="Google IT Support Professional Certificate" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Google IT Support Professional Certificate</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">Google / Coursera</span>
-          <span class="cert-date">Apr 2026</span>
-        </div>
-        <a href="https://coursera.org/verify/professional-cert/MXNP5MX1FSMW" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('CC.png')">
-        <img src="CC.png" alt="ISC2 Certified in Cybersecurity" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">Certified in Cybersecurity (CC) — 5-Course Specialization</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">ISC2 / Coursera</span>
-          <span class="cert-date">Apr 2026</span>
-        </div>
-        <a href="https://coursera.org/verify/specialization/1QQKI0W9ZW0U" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('IBM_Business_Analyst.png')">
-        <img src="IBM_Business_Analyst.png" alt="IBM Business Analyst Professional Certificate" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">IBM Business Analyst Professional Certificate — 8 Courses</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">IBM / Coursera</span>
-          <span class="cert-date">Apr 2026</span>
-        </div>
-        <a href="https://coursera.org/verify/professional-cert/7WPM2PNRPO3E" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-    <div class="cert-card">
-      <div class="cert-img-wrap" onclick="openLightbox('SAP_Consultant.png')">
-        <img src="SAP_Consultant.png" alt="SAP Technology Consultant Professional Certificate" loading="lazy"/>
-      </div>
-      <div class="cert-info">
-        <p class="cert-card-name">SAP Technology Consultant Professional Certificate — 7 Courses</p>
-        <div class="cert-card-bottom">
-          <span class="cert-issuer">SAP / Coursera</span>
-          <span class="cert-date">Apr 2026</span>
-        </div>
-        <a href="https://coursera.org/verify/professional-cert/FSX18L4GGUWM" target="_blank" class="cert-verify">View Certificate ↗</a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="Certificate"/>
+    <footer>
+      <p>Last updated October 2026.</p>
+      <p>Where a project says its data is simulated or synthetic, the numbers describe that data only.</p>
+    </footer>
+  </main>
 </div>
 
 <script>
-  function openLightbox(src) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
+(function () {
+  var root = document.documentElement;
+
+  /* Theme: Auto follows the device, Light and Dark override it */
+  var themeBtn = document.getElementById('theme');
+  var modes = ['auto', 'light', 'dark'];
+  var mode = 'auto';
+  try { mode = localStorage.getItem('theme') || 'auto'; } catch (e) {}
+  if (modes.indexOf(mode) < 0) mode = 'auto';
+  function applyMode() {
+    if (mode === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', mode);
+    themeBtn.textContent = 'Theme: ' + mode.charAt(0).toUpperCase() + mode.slice(1);
   }
-  function closeLightbox() {
-    document.getElementById('lightbox').classList.remove('open');
-    document.body.style.overflow = '';
+  applyMode();
+  themeBtn.addEventListener('click', function () {
+    mode = modes[(modes.indexOf(mode) + 1) % modes.length];
+    applyMode();
+    try { localStorage.setItem('theme', mode); } catch (e) {}
+  });
+
+  /* Project filter: also reads and writes ?area= so a filtered view can be shared */
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var items = Array.prototype.slice.call(document.querySelectorAll('#projects [data-tags]'));
+  var status = document.getElementById('filter-status');
+  var moreList = document.getElementById('more-list');
+  var moreTitle = document.getElementById('more-title');
+  function applyFilter(area, updateUrl) {
+    var shown = 0;
+    items.forEach(function (el) {
+      var match = area === 'all' || el.getAttribute('data-tags').split(' ').indexOf(area) >= 0;
+      el.hidden = !match;
+      if (match) shown++;
+    });
+    var anyMore = Array.prototype.some.call(moreList.children, function (li) { return !li.hidden; });
+    moreList.hidden = !anyMore;
+    moreTitle.hidden = !anyMore;
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', c.getAttribute('data-filter') === area ? 'true' : 'false'); });
+    status.textContent = area === 'all' ? '' : 'Showing ' + shown + ' of ' + items.length + ' projects.';
+    if (updateUrl) {
+      try {
+        var url = new URL(window.location.href);
+        if (area === 'all') url.searchParams.delete('area'); else url.searchParams.set('area', area);
+        window.history.replaceState(null, '', url.toString());
+      } catch (e) {}
+    }
   }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () { applyFilter(c.getAttribute('data-filter'), true); });
+  });
+  var start = 'all';
+  try { start = new URLSearchParams(window.location.search).get('area') || 'all'; } catch (e) {}
+  if (!chips.some(function (c) { return c.getAttribute('data-filter') === start; })) start = 'all';
+  applyFilter(start, false);
+
+  /* Section highlight in the side navigation */
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.side nav a'));
+  if ('IntersectionObserver' in window) {
+    var byId = {};
+    navLinks.forEach(function (a) { byId[a.getAttribute('href').slice(1)] = a; });
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting && byId[entry.target.id]) {
+          navLinks.forEach(function (a) { a.removeAttribute('aria-current'); });
+          byId[entry.target.id].setAttribute('aria-current', 'true');
+        }
+      });
+    }, { rootMargin: '-15% 0px -75% 0px' });
+    Array.prototype.forEach.call(document.querySelectorAll('main section[id]'), function (s) { observer.observe(s); });
+  }
+
+  /* Copy the email address */
+  var copyBtn = document.getElementById('copy-email');
+  var copyStatus = document.getElementById('copy-status');
+  var address = document.getElementById('email-link').textContent;
+  function done(ok) {
+    copyStatus.textContent = ok ? 'Copied' : 'Copy failed, select the address instead';
+    setTimeout(function () { copyStatus.textContent = ''; }, 2500);
+  }
+  copyBtn.addEventListener('click', function () {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(address).then(function () { done(true); }, function () { done(false); });
+    } else {
+      var box = document.createElement('textarea');
+      box.value = address; box.setAttribute('readonly', ''); box.style.position = 'absolute'; box.style.left = '-9999px';
+      document.body.appendChild(box); box.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(box);
+      done(ok);
+    }
+  });
+})();
 </script>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div>
-    <p class="section-label">// 06 — Let's Talk</p>
-    <h2 class="section-title">Get In Touch</h2>
-    <p class="contact-bio">I'm actively looking for Data Science, Machine Learning, SAP/ABAP, and Software Development opportunities. Feel free to reach out — I'd love to connect.</p>
-  </div>
-  <div class="contact-links">
-    <a href="mailto:Rawabolu75@gmail.com" class="contact-link">
-      <span class="contact-link-icon">Email</span>
-      Rawabolu75@gmail.com
-    </a>
-    <a href="https://www.linkedin.com/in/oluwakayode-rawa" target="_blank" class="contact-link">
-      <span class="contact-link-icon">LinkedIn</span>
-      oluwakayode-rawa
-    </a>
-    <a href="https://github.com/OK-22" target="_blank" class="contact-link">
-      <span class="contact-link-icon">GitHub</span>
-      github.com/OK-22
-    </a>
-    <a href="tel:9896211578" class="contact-link">
-      <span class="contact-link-icon">Phone</span>
-      (989) 621-1578
-    </a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <p>© 2026 Oluwakayode Rawa — All rights reserved</p>
-  <p>Built with HTML · Hosted on GitHub Pages</p>
-</footer>
-
 </body>
 </html>
